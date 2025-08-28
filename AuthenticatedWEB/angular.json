@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AuthenticatedWEB": {
+    "AuthenticatedWeb": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -59,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "AuthenticatedWEB:build:production"
+              "buildTarget": "AuthenticatedWeb:build:production"
             },
             "development": {
-              "buildTarget": "AuthenticatedWEB:build:development"
+              "buildTarget": "AuthenticatedWeb:build:development"
             }
           },
           "defaultConfiguration": "development"

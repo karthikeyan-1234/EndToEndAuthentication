@@ -165,3 +165,4 @@ C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedBackEndAPI\bin\D
 C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedBackEndAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedBackEndAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedBackEndAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedBackEndAPI\obj\Debug\net9.0\AuthenticatedBackEndAPI.sourcelink.json
