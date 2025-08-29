@@ -1,18 +1,16 @@
-using AuthenticatedBackEndAPI.Contexts;
+﻿using AuthenticatedBackEndAPI.Contexts;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 using System.Security.Claims;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Add services to the container
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<EmployeeContext>(options =>
@@ -20,105 +18,97 @@ builder.Services.AddDbContext<EmployeeContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Add Swagger/OpenAPI support
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+// 🔑 Configure JWT Authentication with Keycloak claim mapping
+// Add Authentication & Authorization
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = "http://192.168.1.150:8091/realms/master"; // Replace with your auth server URL
-        options.Audience = "api-app"; // Replace with your API audience,
-        options.RequireHttpsMetadata = false; // Set to true in production
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        options.Authority = "http://192.168.1.150:8443/realms/master";
+        options.Audience = "api-app";
+        options.RequireHttpsMetadata = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidIssuer = "http://192.168.1.150:8091/realms/master",
+            ValidIssuer = "http://192.168.1.150:8443/realms/master",
             ValidAudience = "api-app",
-            RoleClaimType = "roles" // <- or "realm_access.roles" if nested
+            RoleClaimType = ClaimTypes.Role
         };
-
-        options.TokenValidationParameters.RoleClaimType = ClaimTypes.Role;
 
         options.Events = new JwtBearerEvents
         {
-            OnAuthenticationFailed = context =>
-            {
-                if (context.Exception.GetType() == typeof(System.Security.Authentication.AuthenticationException))
-                {
-                    context.Response.StatusCode = 401; // Unauthorized
-                    context.Response.ContentType = "application/json";
-                    return context.Response.WriteAsync("{\"error\": \"Invalid token\"}");
-                }
-                return Task.CompletedTask;
-            },
-
             OnTokenValidated = context =>
             {
-                var claimsIdentity = context.Principal!.Identity as ClaimsIdentity;
-                if (claimsIdentity != null)
+                var identity = context.Principal?.Identity as ClaimsIdentity;
+                if (identity == null) return Task.CompletedTask;
+
+                var realmAccess = context.Principal?.FindFirst("realm_access")?.Value;
+                if (!string.IsNullOrEmpty(realmAccess))
                 {
-                    var roleClaims = context.Principal.FindAll("roles");
-                    foreach (var roleClaim in roleClaims)
+                    using var doc = JsonDocument.Parse(realmAccess);
+                    if (doc.RootElement.TryGetProperty("roles", out var roles))
                     {
-                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, roleClaim.Value));
+                        foreach (var role in roles.EnumerateArray())
+                        {
+                            identity.AddClaim(new Claim(ClaimTypes.Role, role.GetString()!));
+                        }
                     }
                 }
-                return Task.CompletedTask;
-            },
 
-            OnChallenge = context =>
-            {
-                // Custom logic for handling challenges
-                if (context.AuthenticateFailure != null)
+                var resourceAccess = context.Principal?.FindFirst("resource_access")?.Value;
+                if (!string.IsNullOrEmpty(resourceAccess))
                 {
-                    context.Response.StatusCode = 401; // Unauthorized
-                    context.Response.ContentType = "application/json";
-                    return context.Response.WriteAsync("{\"error\": \"Authentication failed\"}");
+                    using var doc = JsonDocument.Parse(resourceAccess);
+                    if (doc.RootElement.TryGetProperty("api-app", out var apiApp) &&
+                        apiApp.TryGetProperty("roles", out var roles))
+                    {
+                        foreach (var role in roles.EnumerateArray())
+                        {
+                            identity.AddClaim(new Claim(ClaimTypes.Role, role.GetString()!));
+                        }
+                    }
                 }
+
                 return Task.CompletedTask;
             }
         };
     });
 
+// CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins", builder =>
+    options.AddPolicy("AllowAllOrigins", policy =>
     {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
 
 AppContext.SetSwitch("Microsoft.IdentityModel.Logging.ShowPII", true);
 
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
-//app.UseHttpsRedirection();
-
 app.UseSwagger();
-
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Authenticated BackEnd API V1");
-    c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+    c.RoutePrefix = string.Empty;
 });
 
 app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.MapControllers();
