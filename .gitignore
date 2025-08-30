@@ -41,3 +41,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/AuthenticatedBackEndAPI/obj/Release/net9.0/.NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+/AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.AssemblyInfo.cs
+/AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.AssemblyInfoInputs.cache
+/AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.assets.cache
+/AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.csproj.AssemblyReference.cache
+/AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.GeneratedMSBuildEditorConfig.editorconfig
+/AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.GlobalUsings.g.cs
