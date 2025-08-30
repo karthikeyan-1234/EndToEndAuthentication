@@ -22,7 +22,7 @@ docker run -d
 -p 8091:8080
 -e KEYCLOAK_ADMIN=admin
 -e KEYCLOAK_ADMIN_PASSWORD=admin
-quay.io/keycloak/keycloak:21.0.1 start-dev
+quay.io/keycloak/keycloak:24.0.5 start-dev
 
 
 - This starts Keycloak in development mode on port `8091` (adjust the port as per your API settings).
