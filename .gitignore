@@ -48,3 +48,9 @@ Thumbs.db
 /AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.csproj.AssemblyReference.cache
 /AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.GeneratedMSBuildEditorConfig.editorconfig
 /AuthenticatedBackEndAPI/obj/Release/net9.0/AuthenticatedBackEndAPI.GlobalUsings.g.cs
+AuthenticatedBackEndAPI/bin/Debug/net9.0/AuthenticatedBackEndAPI.dll
+AuthenticatedBackEndAPI/bin/Debug/net9.0/AuthenticatedBackEndAPI.exe
+AuthenticatedBackEndAPI/bin/Debug/net9.0/AuthenticatedBackEndAPI.dll
+AuthenticatedBackEndAPI/bin/Debug/net9.0/AuthenticatedBackEndAPI.exe
+AuthenticatedBackEndAPI/obj/Debug/net9.0/AuthenticatedBackEndAPI.AssemblyInfo.cs
+AuthenticatedBackEndAPI/obj/Debug/net9.0/AuthenticatedBackEndAPI.AssemblyInfoInputs.cache

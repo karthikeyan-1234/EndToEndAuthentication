@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { KeycloakService } from 'keycloak-angular';
-import { initializeKeycloak } from './keycloak.init';
+import { initializeKeycloak } from './auth/keycloak.init';
 
 export const appConfig: ApplicationConfig = {
   providers: 
