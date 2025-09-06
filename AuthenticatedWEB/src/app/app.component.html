@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <!-- Left corner: logout button -->
+  <button mat-icon-button matTooltip="Logout" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+
+  <span class="spacer"></span>
+
+  <!-- Right side: username -->
+  <span *ngIf="username">Welcome, {{ username }}</span>
+</mat-toolbar>
+
+<router-outlet />
