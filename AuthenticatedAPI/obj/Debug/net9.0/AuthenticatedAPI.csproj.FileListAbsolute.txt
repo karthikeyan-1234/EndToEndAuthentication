@@ -88,3 +88,4 @@ C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedAPI\obj\Debug\ne
 C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedAPI\obj\Debug\net9.0\AuthenticatedAPI.pdb
 C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedAPI\obj\Debug\net9.0\AuthenticatedAPI.genruntimeconfig.cache
 C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedAPI\obj\Debug\net9.0\ref\AuthenticatedAPI.dll
+C:\Users\mail2\source\repos\EndToEndAuthentication\AuthenticatedAPI\obj\Debug\net9.0\AuthenticatedAPI.sourcelink.json
