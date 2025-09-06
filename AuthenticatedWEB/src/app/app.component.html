@@ -8,6 +8,7 @@
 
   <!-- Right side: username -->
   <span *ngIf="username">Welcome, {{ username }}</span>
+  <span *ngIf="role"> (Role: {{ role }})</span>
 </mat-toolbar>
 
 <router-outlet />

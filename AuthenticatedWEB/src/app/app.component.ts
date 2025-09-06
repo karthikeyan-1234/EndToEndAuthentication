@@ -19,10 +19,23 @@ import {MatTableModule} from '@angular/material/table';
 export class AppComponent {
   title = 'KeyCloakTest';
   username: string = localStorage.getItem('username') || 'Guest';
+  roles: string[] = JSON.parse(localStorage.getItem('roles') || '[]');
+  role: string = localStorage.getItem('role') || 'No Role';
   weatherInfo: WeatherForecast[] = [];
 
   constructor(private authService: AuthService, private weatherService: WeatherService) { 
     this.authService.loadUserProfile().then(profile => {
+
+      // Fetch and store user roles
+      this.roles = this.authService.getUserRoles();
+      localStorage.setItem('roles', JSON.stringify(this.roles));
+
+      // For simplicity, just take the first role if available
+      this.role = this.roles.length > 0 ? this.roles[0] : 'No Role';
+      localStorage.setItem('role', this.role);
+
+      console.log('User Roles:', this.roles);
+
       this.username = profile ? profile.username : 'Guest';
       localStorage.setItem('username', this.username);
     });

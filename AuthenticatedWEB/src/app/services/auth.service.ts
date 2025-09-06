@@ -14,4 +14,9 @@ export class AuthService {
   async loadUserProfile(): Promise<any> {
     return this.keycloakService.loadUserProfile();
   }
+
+  //get user roles
+  getUserRoles(): string[] {
+    return this.keycloakService.getUserRoles();
+  }
 }
